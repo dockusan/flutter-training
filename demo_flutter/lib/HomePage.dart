@@ -4,6 +4,7 @@ import 'models/RecordList.dart';
 import 'models/Record.dart';
 import 'models/RecordService.dart';
 import 'helper/Constants.dart';
+import 'DetailPage.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -178,7 +179,12 @@ class _HomePageState extends State<HomePage> {
           ),
           trailing:
               Icon(Icons.keyboard_arrow_right, color: Colors.white, size: 30.0),
-          onTap: () {},
+          onTap: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => DetailPage(record: record)));
+          },
         ),
       ),
     );
