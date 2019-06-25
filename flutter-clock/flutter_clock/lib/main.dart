@@ -1,12 +1,43 @@
 import 'package:flutter/material.dart';
+import 'dart:async';
 
 void main() => runApp(ClockApp());
 
-class ClockApp extends StatelessWidget {
+class ClockApp extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return ClockAppState();
+  }
+}
+
+class ClockAppState extends State<ClockApp> {
+  static const duration = const Duration(seconds: 1);
+
+  int secondsPassed = 0;
   bool isActive = false;
+
+  Timer timer;
+
+  void handleTick() {
+    if (isActive) {
+      setState(() {
+        secondsPassed = secondsPassed + 1;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
+    if (timer == null)
+      timer = Timer.periodic(duration, (Timer t) {
+        handleTick();
+      });
+
+    int seconds = secondsPassed % 60;
+    int minutes = secondsPassed ~/ 60;
+    int hours = secondsPassed ~/ (60 * 60);
+
+
     return MaterialApp(
       title: "Welcome to Flutter",
       home: Scaffold(
@@ -18,14 +49,20 @@ class ClockApp extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                CustomTextWidget(label: "HRS", value: "00"),
-                CustomTextWidget(label: "MIN", value: "00"),
-                CustomTextWidget(label: "SEC", value: "00"),
+                CustomTextWidget(
+                    label: "HRS", value: hours.toString().padLeft(2, '0')),
+                CustomTextWidget(
+                    label: "MIN", value: minutes.toString().padLeft(2, '0')),
+                CustomTextWidget(
+                    label: "SEC", value: seconds.toString().padLeft(2, '0')),
               ],
             ),
             RaisedButton(
-              child: Text(isActive ? "Start" : "Stop"),
+              child: Text(!isActive ? "Start" : "Stop"),
               onPressed: () {
+                setState(() {
+                  isActive = !isActive;
+                });
               },
             )
           ]),
@@ -43,7 +80,14 @@ class CustomTextWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final width = MediaQuery
+        .of(context)
+        .size
+        .width / 3 - 20;
+
     return Container(
+      width: width,
       margin: EdgeInsets.symmetric(horizontal: 5),
       padding: EdgeInsets.all(20),
       decoration: new BoxDecoration(
