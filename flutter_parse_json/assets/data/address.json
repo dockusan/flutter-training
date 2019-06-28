@@ -1,0 +1,7 @@
+{
+  "city": "Mumbai",
+  "streets": {
+    "name": "address1",
+    "length": 2000
+  }
+}

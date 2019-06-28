@@ -1,0 +1,14 @@
+{
+  "streets": [
+    {
+      "name": "address1",
+      "length": 2000,
+      "type": 1
+    },
+    {
+      "name": "small road",
+      "subName": "road",
+      "type": 2
+    }
+  ]
+}
